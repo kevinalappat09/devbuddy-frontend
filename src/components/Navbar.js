@@ -1,9 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import { useAuth } from '../context/AuthContext'; // Import useAuth for accessing context
 
 const Navbar = () => {
     const { user, logout } = useAuth();
+    const navigate = useNavigate(); // Initialize useNavigate
+
+    const handleLogout = () => {
+        logout(); // Call logout from context
+        navigate('/login'); // Redirect to login page after logout
+    };
 
     return (
         <nav className="bg-primary text-secondary px-6 py-3 flex justify-between items-center shadow-lg">
@@ -14,7 +20,7 @@ const Navbar = () => {
                     <>
                         <Link to="/search" className="text-secondary font-semibold hover:translate-y-1 hover:scale-105 transition-all">Search</Link>
                         <button 
-                            onClick={logout} 
+                            onClick={handleLogout}  // Call the handleLogout function
                             className="text-secondary font-semibold hover:translate-y-1 hover:scale-105 transition-all ml-auto"
                         >
                             Logout

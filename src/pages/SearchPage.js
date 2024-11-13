@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FaGithub, FaLinkedin, FaUserAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const SearchPage = () => {
   const [language, setLanguage] = useState('');
@@ -7,6 +9,8 @@ const SearchPage = () => {
   const [connectedUsers, setConnectedUsers] = useState([]); // State for connected users
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  
+  const navigate = useNavigate(); // To programmatically navigate
 
   // Fetch connected users
   const fetchConnectedUsers = async () => {
@@ -41,7 +45,6 @@ const SearchPage = () => {
 
       if (response.data.users) {
         setUsers(response.data.users);
-        console.log(users)
         fetchConnectedUsers(); // Fetch connected users after each search
       } else {
         setError('No users found for this language.');
@@ -53,20 +56,16 @@ const SearchPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchConnectedUsers(); // Fetch connected users when component loads
-  }, []);
-
+  // Handle connection with the user
   const handleConnect = async (recommendedUserId) => {
     const token = localStorage.getItem('authToken');
     try {
-        console.log(recommendedUserId);
-        const response = await fetch(`http://localhost:5000/api/user/connect/${recommendedUserId}`, {
-            method: "POST",
-            headers: {
-              "x-auth-token": token,
-            },
-          });
+      const response = await fetch(`http://localhost:5000/api/user/connect/${recommendedUserId}`, {
+        method: "POST",
+        headers: {
+          "x-auth-token": token,
+        },
+      });
 
       if (response.status === 200) {
         fetchConnectedUsers(); // Refresh connections after successful connection
@@ -78,8 +77,18 @@ const SearchPage = () => {
     }
   };
 
+  useEffect(() => {
+    // Check if the user is authenticated, if not redirect to login page
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      navigate('/'); // Redirect to login page if not authenticated
+    } else {
+      fetchConnectedUsers(); // Fetch connected users when component loads
+    }
+  }, [navigate]);
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       <div className="container mx-auto p-4">
         <h1 className="text-3xl font-semibold text-center mt-10">Search Users by Language</h1>
 
@@ -94,7 +103,7 @@ const SearchPage = () => {
           />
           <button
             type="submit"
-            className="ml-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            className="ml-4 px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"
           >
             Search
           </button>
@@ -114,37 +123,43 @@ const SearchPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {users.map((user) => (
                   <div key={user.userId} className="bg-white p-4 rounded-lg shadow-lg">
-                    <h3 className="text-xl font-semibold">{user.firstName} {user.lastName}</h3>
-                    <p className="text-gray-600">{user.email}</p>
+                    <div className="flex items-center space-x-4">
+                      {/* User Icon */}
+                      <div className="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-full">
+                        <FaUserAlt className="text-gray-600 text-3xl" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold">{user.firstName} {user.lastName}</h3>
+                        <p className="text-gray-600">{user.email}</p>
+                      </div>
+                    </div>
 
                     {/* Check if user is connected */}
                     {connectedUsers.includes(user.userId) ? (
                       <div className="flex justify-between mt-4">
-                        {user.githubUrl && (
-                          <a
-                            href={`https://github.com/${user.githubUrl}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-500"
-                          >
-                            GitHub
-                          </a>
-                        )}
-                        {user.linkedinUrl && (
-                          <a
-                            href={`https://www.linkedin.com/in/${user.linkedinUrl}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-500"
-                          >
-                            LinkedIn
-                          </a>
-                        )}
+                        <a
+                          href={`https://github.com/${user.githubUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center text-black bg-gray-200 px-4 py-2 rounded-md hover:bg-gray-300"
+                        >
+                          <FaGithub className="mr-2" />
+                          GitHub
+                        </a>
+                        <a
+                          href={`https://www.linkedin.com/in/${user.linkedinUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center text-blue-700 bg-gray-200 px-4 py-2 rounded-md hover:bg-gray-300"
+                        >
+                          <FaLinkedin className="mr-2" />
+                          LinkedIn
+                        </a>
                       </div>
                     ) : (
                       <button
                         onClick={() => handleConnect(user.userId)}
-                        className="mt-4 w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                        className="mt-4 w-full py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
                       >
                         Connect
                       </button>

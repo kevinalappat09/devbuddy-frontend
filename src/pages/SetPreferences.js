@@ -22,16 +22,14 @@ const SetPreferences = () => {
   const [isRatingVisible, setIsRatingVisible] = useState(false);
   const navigate = useNavigate();
 
-  // Get the user ID from the JWT token only once when the component mounts
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
       const decodedToken = jwtDecode(token);
       setUserId(decodedToken.userId);
     }
-  }, []);  // Empty dependency array to ensure this runs only once
+  }, []);
 
-  // Handle language selection
   const handleLanguageSelect = (language) => {
     setSelectedLanguages((prevSelected) => {
       if (prevSelected.includes(language)) {
@@ -42,7 +40,6 @@ const SetPreferences = () => {
     });
   };
 
-  // Handle skill rating change
   const handleScoreChange = (language, score) => {
     setLanguageScores((prevScores) => ({
       ...prevScores,
@@ -50,7 +47,6 @@ const SetPreferences = () => {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async () => {
     if (!userId) {
       console.error("No user ID found. Please log in.");
@@ -87,21 +83,21 @@ const SetPreferences = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+      <div className="bg-white p-10 rounded-lg shadow-lg w-[500px]">
         <h2 className="text-2xl mb-6 text-center font-semibold">Select Your Known Languages</h2>
 
         {/* Step 1: Language Selection */}
         {!isRatingVisible && (
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-3 gap-6 mb-6">
             {languagesList.map(({ name, icon }) => (
               <button
                 key={name}
                 onClick={() => handleLanguageSelect(name)}
-                className={`p-4 border-2 rounded-lg ${
-                  selectedLanguages.includes(name) ? "bg-blue-500 text-white" : "bg-gray-200"
+                className={`p-5 border-2 rounded-lg font-semibold ${
+                  selectedLanguages.includes(name) ? "bg-[#f97316] text--black" : "bg-gray-200"
                 }`}
               >
-                <i className={`fab ${icon} text-3xl mb-2`}></i>
+                <i className={`fab ${icon} text-black text-3xl mb-2`}></i>
                 <div>{name}</div>
               </button>
             ))}
@@ -124,7 +120,7 @@ const SetPreferences = () => {
                         value={score}
                         checked={languageScores[language] === score}
                         onChange={() => handleScoreChange(language, score)}
-                        className="mr-2"
+                        className="mr-2 h-5 w-5 accent-[#f97316] focus:outline-none" 
                       />
                       {score}
                     </label>
@@ -140,14 +136,14 @@ const SetPreferences = () => {
           {!isRatingVisible ? (
             <button
               onClick={() => setIsRatingVisible(true)}
-              className="w-1/2 bg-blue-500 text-white py-2 rounded mt-6"
+              className="w-1/2 bg-[#f97316] text-white font-semibold py-3 rounded mt-6 mx-2"
             >
               Next
             </button>
           ) : (
             <button
               onClick={() => setIsRatingVisible(false)}
-              className="w-1/2 bg-gray-500 text-white py-2 rounded mt-6"
+              className="w-1/2 bg-gray-500 text-white font-semibold py-3 rounded mt-6 mx-2"
             >
               Back
             </button>
@@ -156,7 +152,7 @@ const SetPreferences = () => {
           {isRatingVisible && (
             <button
               onClick={handleSubmit}
-              className="w-1/2 bg-green-500 text-white py-2 rounded mt-6"
+              className="w-full bg-[#f97316] text-white font-semibold py-3 rounded mt-6"
             >
               Save Preferences
             </button>
