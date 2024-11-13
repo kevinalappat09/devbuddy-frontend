@@ -1,50 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user, logout } = useAuth();
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    setIsLoggedIn(!!token);
-  }, []);
-
-  return (
-    <nav className="bg-gray-800 text-white p-4">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <div className="flex space-x-4">
-          <Link to="/" className="text-lg font-semibold hover:text-gray-300">
-            Home
-          </Link>
-          {!isLoggedIn && (
-            <>
-              <Link to="/login" className="text-lg font-semibold hover:text-gray-300">
-                Login
-              </Link>
-              <Link to="/signup" className="text-lg font-semibold hover:text-gray-300">
-                Signup
-              </Link>
-            </>
-          )}
-        </div>
-
-        {isLoggedIn && (
-          <div className="flex space-x-4">
-            <button
-              className="text-lg font-semibold hover:text-gray-300"
-              onClick={() => {
-                // Simulate logout by removing the token
-                localStorage.removeItem("authToken");
-                setIsLoggedIn(false);
-              }}
-            >
-              Logout
-            </button>
-          </div>
-        )}
-      </div>
-    </nav>
-  );
+    return (
+        <nav className="bg-primary text-secondary px-6 py-3 flex justify-between items-center shadow-lg">
+            <div className="font-bold text-2xl">DevBuddy</div>
+            <div className="flex items-center space-x-6">
+                <Link to="/" className="text-secondary font-semibold hover:translate-y-1 hover:scale-105 transition-all">Home</Link>
+                {user ? (
+                    <>
+                        <Link to="/search" className="text-secondary font-semibold hover:translate-y-1 hover:scale-105 transition-all">Search</Link>
+                        <button 
+                            onClick={logout} 
+                            className="text-secondary font-semibold hover:translate-y-1 hover:scale-105 transition-all ml-auto"
+                        >
+                            Logout
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login" className="text-secondary font-semibold hover:translate-y-1 hover:scale-105 transition-all">Login</Link>
+                        <Link to="/signup" className="text-secondary font-semibold hover:translate-y-1 hover:scale-105 transition-all">Signup</Link>
+                    </>
+                )}
+            </div>
+        </nav>
+    );
 };
 
 export default Navbar;
