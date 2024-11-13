@@ -1,15 +1,13 @@
 import React from 'react';
 import HeroSection from './HeroSection';
-import { FaUsers, FaProjectDiagram, FaCodeBranch } from 'react-icons/fa'; // Importing icons for the cards
+import { FaUsers, FaProjectDiagram, FaCodeBranch } from 'react-icons/fa';
 
 const MarketingMaterial = () => {
   return (
     <div className="w-full h-screen">
       <HeroSection />
       <div className="w-full h-auto flex flex-col justify-center items-center text-center py-12 bg-gray-50">
-        {/* Adjust the grid layout with explicit column widths */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-16 w-full max-w-screen-xl">
-          {/* Card 1 */}
           <div className="bg-white px-12 py-10 rounded-lg shadow-lg transform transition-all hover:shadow-2xl hover:scale-105 max-w-sm mx-auto">
             <div className="flex items-center justify-center mb-4">
               <span className="text-5xl font-semibold text-orange-500 mr-4">1M+</span>
@@ -22,7 +20,6 @@ const MarketingMaterial = () => {
             </button>
           </div>
 
-          {/* Card 2 */}
           <div className="bg-white px-12 py-10 rounded-lg shadow-lg transform transition-all hover:shadow-2xl hover:scale-105 max-w-sm mx-auto">
             <div className="flex items-center justify-center mb-4">
               <span className="text-5xl font-semibold text-orange-500 mr-4">10K+</span>
@@ -35,7 +32,6 @@ const MarketingMaterial = () => {
             </button>
           </div>
 
-          {/* Card 3 */}
           <div className="bg-white px-12 py-10 rounded-lg shadow-lg transform transition-all hover:shadow-2xl hover:scale-105 max-w-sm mx-auto">
             <div className="flex items-center justify-center mb-4">
               <span className="text-5xl font-semibold text-orange-500 mr-4">#1</span>

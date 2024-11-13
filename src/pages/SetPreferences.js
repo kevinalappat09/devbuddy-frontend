@@ -86,7 +86,6 @@ const SetPreferences = () => {
       <div className="bg-white p-10 rounded-lg shadow-lg w-[500px]">
         <h2 className="text-2xl mb-6 text-center font-semibold">Select Your Known Languages</h2>
 
-        {/* Step 1: Language Selection */}
         {!isRatingVisible && (
           <div className="grid grid-cols-3 gap-6 mb-6">
             {languagesList.map(({ name, icon }) => (
@@ -104,7 +103,6 @@ const SetPreferences = () => {
           </div>
         )}
 
-        {/* Step 2: Skill Rating for Selected Languages */}
         {isRatingVisible && selectedLanguages.length > 0 && (
           <div>
             <h3 className="text-xl mb-4">Rate Your Skills for Selected Languages</h3>
@@ -131,7 +129,6 @@ const SetPreferences = () => {
           </div>
         )}
 
-        {/* Next/Back Button */}
         <div className="flex justify-between">
           {!isRatingVisible ? (
             <button

@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
-import { useAuth } from '../context/AuthContext'; // Import useAuth for accessing context
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        logout(); // Call logout from context
-        navigate('/login'); // Redirect to login page after logout
+        logout();
+        navigate('/login');
     };
 
     return (
@@ -20,7 +20,7 @@ const Navbar = () => {
                     <>
                         <Link to="/search" className="text-secondary font-semibold hover:translate-y-1 hover:scale-105 transition-all">Search</Link>
                         <button 
-                            onClick={handleLogout}  // Call the handleLogout function
+                            onClick={handleLogout} 
                             className="text-secondary font-semibold hover:translate-y-1 hover:scale-105 transition-all ml-auto"
                         >
                             Logout

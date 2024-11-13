@@ -5,12 +5,11 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    navigate('/login'); // Redirect to the login page
+    navigate('/login');
   };
 
   return (
     <div className="relative w-full h-[calc(100vh-3rem)] bg-gradient-to-b from-orange-500 to-orange-700">
-      {/* Hero Section Content */}
       <div className="flex flex-col justify-center items-center h-full text-center px-6 space-y-6">
         <h1 className="text-5xl font-extrabold text-white">
           DevBuddy

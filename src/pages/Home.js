@@ -10,11 +10,10 @@ const Home = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
   const [connectedUsers, setConnectedUsers] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);  // New state to force re-render on login/logout
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  // Fetch user profile, preferences, recommendations, and connections
   useEffect(() => {
     const token = localStorage.getItem("authToken");
 
@@ -34,7 +33,7 @@ const Home = () => {
             } else {
               fetchUserProfile(token);
               fetchRecommendations(token);
-              fetchConnectedUsers(token);  // Call here as well to load connected users on mount
+              fetchConnectedUsers(token);
             }
           } else {
             console.log("Error fetching init_preferences:", data.msg);
@@ -117,10 +116,10 @@ const Home = () => {
   };
 
   const handleLogout = () => {
-    logout();  // Call logout from context to clear the user state
+    logout();
     localStorage.removeItem("authToken");
-    setIsLoggedIn(false);  // Update local state to force re-render
-    navigate("/login");  // Navigate back to login page
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   const handleConnect = async (recommendedUserId) => {
@@ -137,7 +136,6 @@ const Home = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Fetch connected users after successfully connecting
         fetchConnectedUsers(token);
       } else {
         alert("Error connecting with user: " + data.msg);
@@ -149,11 +147,11 @@ const Home = () => {
 
   useEffect(() => {
     if (user) {
-      setIsLoggedIn(true);  // If user exists in context, set logged-in state
+      setIsLoggedIn(true);
     } else {
-      setIsLoggedIn(false);  // If no user, set logged-out state
+      setIsLoggedIn(false);
     }
-  }, [user]);  // Re-run this effect when the `user` context changes
+  }, [user]);
 
   return (
     <div className="w-full h-screen mx-auto flex justify-center items-center">

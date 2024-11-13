@@ -9,7 +9,6 @@ const Recommendations = ({ recommendations, connectedUsers, handleConnect }) => 
         {recommendations.map((user) => (
           <div key={user.user._id} className="bg-white p-4 rounded-lg shadow-lg">
             <div className="flex items-center space-x-4">
-              {/* User Icon */}
               <div className="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-full">
                 <FaUserAlt className="text-gray-600 text-3xl" />
               </div>
@@ -19,7 +18,6 @@ const Recommendations = ({ recommendations, connectedUsers, handleConnect }) => 
               </div>
             </div>
 
-            {/* Check if connectedUsers is an array and includes the user */}
             {Array.isArray(connectedUsers) && connectedUsers.some((u) => u.userId === user.user._id) ? (
               <div className="flex justify-between mt-4">
                 <a

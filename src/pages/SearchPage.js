@@ -6,13 +6,12 @@ import { useNavigate } from 'react-router-dom';
 const SearchPage = () => {
   const [language, setLanguage] = useState('');
   const [users, setUsers] = useState([]);
-  const [connectedUsers, setConnectedUsers] = useState([]); // State for connected users
+  const [connectedUsers, setConnectedUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const navigate = useNavigate(); // To programmatically navigate
+  const navigate = useNavigate();
 
-  // Fetch connected users
   const fetchConnectedUsers = async () => {
     const token = localStorage.getItem('authToken');
     try {
@@ -24,17 +23,16 @@ const SearchPage = () => {
 
       const data = response.data;
       if (response.status === 200 && data.connections) {
-        setConnectedUsers(data.connections.map(user => user.userId)); // Store userIds of connected users
+        setConnectedUsers(data.connections.map(user => user.userId));
       } else {
-        setConnectedUsers([]); // Reset if no data or error
+        setConnectedUsers([]);
       }
     } catch (err) {
       console.error('Error fetching connected users:', err);
-      setConnectedUsers([]); // Reset if error
+      setConnectedUsers([]);
     }
   };
 
-  // Fetch users based on language search
   const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -45,7 +43,7 @@ const SearchPage = () => {
 
       if (response.data.users) {
         setUsers(response.data.users);
-        fetchConnectedUsers(); // Fetch connected users after each search
+        fetchConnectedUsers();
       } else {
         setError('No users found for this language.');
       }
@@ -56,7 +54,6 @@ const SearchPage = () => {
     }
   };
 
-  // Handle connection with the user
   const handleConnect = async (recommendedUserId) => {
     const token = localStorage.getItem('authToken');
     try {
@@ -68,7 +65,7 @@ const SearchPage = () => {
       });
 
       if (response.status === 200) {
-        fetchConnectedUsers(); // Refresh connections after successful connection
+        fetchConnectedUsers();
       } else {
         alert('Error connecting with user.');
       }
@@ -78,12 +75,11 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
-    // Check if the user is authenticated, if not redirect to login page
     const token = localStorage.getItem('authToken');
     if (!token) {
-      navigate('/'); // Redirect to login page if not authenticated
+      navigate('/');
     } else {
-      fetchConnectedUsers(); // Fetch connected users when component loads
+      fetchConnectedUsers();
     }
   }, [navigate]);
 
@@ -92,7 +88,6 @@ const SearchPage = () => {
       <div className="container mx-auto p-4">
         <h1 className="text-3xl font-semibold text-center mt-10">Search Users by Language</h1>
 
-        {/* Search form */}
         <form onSubmit={handleSearch} className="mt-6 text-center">
           <input
             type="text"
@@ -109,13 +104,10 @@ const SearchPage = () => {
           </button>
         </form>
 
-        {/* Error message */}
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
-        {/* Loading indicator */}
         {loading && <p className="text-center mt-4">Loading...</p>}
 
-        {/* Display search results */}
         <div className="mt-10">
           {users.length > 0 && (
             <div>
@@ -124,7 +116,6 @@ const SearchPage = () => {
                 {users.map((user) => (
                   <div key={user.userId} className="bg-white p-4 rounded-lg shadow-lg">
                     <div className="flex items-center space-x-4">
-                      {/* User Icon */}
                       <div className="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-full">
                         <FaUserAlt className="text-gray-600 text-3xl" />
                       </div>
@@ -133,8 +124,6 @@ const SearchPage = () => {
                         <p className="text-gray-600">{user.email}</p>
                       </div>
                     </div>
-
-                    {/* Check if user is connected */}
                     {connectedUsers.includes(user.userId) ? (
                       <div className="flex justify-between mt-4">
                         <a

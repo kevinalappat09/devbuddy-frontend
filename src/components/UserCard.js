@@ -5,7 +5,6 @@ const UserCard = ({ user, isConnected, handleConnect }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-lg">
       <div className="flex items-center space-x-4">
-        {/* User Icon */}
         <div className="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-full">
           <FaUserAlt className="text-gray-600 text-3xl" />
         </div>
@@ -15,7 +14,6 @@ const UserCard = ({ user, isConnected, handleConnect }) => {
         </div>
       </div>
 
-      {/* Check if user is connected */}
       {isConnected ? (
         <div className="flex justify-between mt-4">
           {user.githubUrl && (
